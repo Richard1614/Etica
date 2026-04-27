@@ -1,0 +1,400 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Núcleo y Fusión Ética · Portafolio Digital 2026-I</title>
+  <link rel="stylesheet" href="Diseño.css" />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&family=Syne:wght@400;700;800&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+  <!-- LOADER -->
+  <div class="loader" id="loader">
+    <div class="loader-inner">
+      <svg viewBox="0 0 100 100" class="loader-compass">
+        <circle cx="50" cy="50" r="40" fill="none" stroke="rgba(201,168,76,0.2)" stroke-width="0.5"/>
+        <line x1="50" y1="10" x2="50" y2="90" stroke="rgba(201,168,76,0.15)" stroke-width="0.5"/>
+        <line x1="10" y1="50" x2="90" y2="50" stroke="rgba(201,168,76,0.15)" stroke-width="0.5"/>
+        <polygon points="50,14 47,38 50,34 53,38" fill="#C9A84C" class="compass-needle"/>
+      </svg>
+      <span class="loader-text">Cargando</span>
+    </div>
+  </div>
+
+  <!-- NAVBAR -->
+  <nav id="navbar">
+    <a href="#hero" class="nav-logo">
+      B<em>É</em>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#hero">Inicio</a></li>
+      <li><a href="#equipo">Equipo</a></li>
+      <li><a href="#manifiesto">Manifiesto</a></li>
+      <li><a href="#media">Media</a></li>
+      <li><a href="#infografia">Infografía</a></li>
+    </ul>
+    <button class="nav-share" id="shareBtn">
+      <span>Compartir</span>
+      <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+    </button>
+    <button class="hamburger" id="hamburger">
+      <span></span><span></span>
+    </button>
+  </nav>
+
+  <!-- ==================== HERO ==================== -->
+  <section id="hero">
+
+    <!-- Video de fondo (YouTube embed sin controles) -->
+    <div class="hero-video-wrap">
+      <iframe
+        id="heroVideo"
+        src="https://www.youtube.com/embed/jfKfPfyJRdk?autoplay=1&mute=1&loop=1&playlist=jfKfPfyJRdk&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&playsinline=1&enablejsapi=1"
+        title="Hero background"
+        frameborder="0"
+        allow="autoplay; fullscreen; encrypted-media"
+        allowfullscreen>
+      </iframe>
+      <!-- Fallback gradient si el video no carga -->
+      <div class="hero-video-fallback"></div>
+    </div>
+
+    <!-- Overlay con grain texture -->
+    <div class="hero-overlay"></div>
+    <div class="hero-grain"></div>
+
+    <!-- Líneas decorativas -->
+    <div class="hero-lines">
+      <div class="h-line h-line-1"></div>
+      <div class="h-line h-line-2"></div>
+      <div class="v-line v-line-1"></div>
+      <div class="v-line v-line-2"></div>
+    </div>
+
+    <!-- Contenido principal -->
+    <div class="hero-content">
+      <div class="hero-badge">
+        <span class="badge-dot"></span>
+        Ética y Deontología Profesional · 2026-I
+      </div>
+
+      <h1 class="hero-title">
+        <span class="title-word t1">Núcleo y</span><span class="title-word t2">Fusión</span>
+        <br/>
+        <em class="title-italic t3">Ética</em>
+      </h1>
+
+      <p class="hero-tagline">
+        Portafolio Digital de Identidad Ética Profesional
+      </p>
+
+      <div class="hero-meta">
+        <div class="meta-item">
+          <span class="meta-label">Carrera</span>
+          <span class="meta-val">Ingenieria de Sistemas/Nutricion</span>
+        </div>
+        <div class="meta-sep"></div>
+        <div class="meta-item">
+          <span class="meta-label">Semestre</span>
+          <span class="meta-val">2026-I</span>
+        </div>
+        <div class="meta-sep"></div>
+        <div class="meta-item">
+          <span class="meta-label">Docente</span>
+          <span class="meta-val">Luis Guillermo Mendoza Velarde</span>
+        </div>
+      </div>
+
+      <div class="hero-cta">
+        <a href="#equipo" class="cta-primary">
+          <span>Explorar</span>
+          <div class="cta-arrow">↓</div>
+        </a>
+        <a href="#manifiesto" class="cta-ghost">Ver manifiesto →</a>
+      </div>
+    </div>
+
+    <!-- Contador scroll -->
+    <div class="hero-scroll-indicator">
+      <div class="scroll-track"><div class="scroll-thumb"></div></div>
+      <span>Scroll</span>
+    </div>
+
+    <!-- Año flotante -->
+    <div class="hero-year">2026</div>
+
+  </section>
+
+  <!-- ==================== EQUIPO ==================== -->
+  <section id="equipo">
+    <div class="section-header-centered">
+      <div class="section-eyebrow">01 — Integrantes</div>
+      <h2 class="section-heading">El <em>equipo</em></h2>
+    </div>
+
+    <div class="team-grid">
+
+      <div class="team-card" data-index="01">
+        <div class="team-card-inner">
+          <div class="team-img">
+            <!-- Reemplaza con tu foto: <img src="foto1.jpg" alt="nombre"> -->
+            <div class="team-img-ph">
+              <span>01</span>
+            </div>
+          </div>
+          <div class="team-info">
+            <span class="team-num">01</span>
+            <h3>[Nombre integrante 1]</h3>
+            <p class="team-role">[Rol en el equipo]</p>
+            <p class="team-desc">Descripción breve de su aporte y reflexión ética personal dentro del proyecto.</p>
+          </div>
+          <div class="team-hover-line"></div>
+        </div>
+      </div>
+
+      <div class="team-card" data-index="02">
+        <div class="team-card-inner">
+          <div class="team-img">
+            <div class="team-img-ph"><span>02</span></div>
+          </div>
+          <div class="team-info">
+            <span class="team-num">02</span>
+            <h3>[Nombre integrante 2]</h3>
+            <p class="team-role">[Rol en el equipo]</p>
+            <p class="team-desc">Descripción breve de su aporte y reflexión ética personal dentro del proyecto.</p>
+          </div>
+          <div class="team-hover-line"></div>
+        </div>
+      </div>
+
+      <div class="team-card" data-index="03">
+        <div class="team-card-inner">
+          <div class="team-img">
+            <div class="team-img-ph"><span>03</span></div>
+          </div>
+          <div class="team-info">
+            <span class="team-num">03</span>
+            <h3>[Nombre integrante 3]</h3>
+            <p class="team-role">[Rol en el equipo]</p>
+            <p class="team-desc">Descripción breve de su aporte y reflexión ética personal dentro del proyecto.</p>
+          </div>
+          <div class="team-hover-line"></div>
+        </div>
+      </div>
+
+      <div class="team-card" data-index="04">
+        <div class="team-card-inner">
+          <div class="team-img">
+            <div class="team-img-ph"><span>04</span></div>
+          </div>
+          <div class="team-info">
+            <span class="team-num">04</span>
+            <h3>[Nombre integrante 4]</h3>
+            <p class="team-role">[Rol en el equipo]</p>
+            <p class="team-desc">Descripción breve de su aporte y reflexión ética personal dentro del proyecto.</p>
+          </div>
+          <div class="team-hover-line"></div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- ==================== MANIFIESTO ==================== -->
+  <section id="manifiesto">
+    <!-- Video de fondo sección manifiesto -->
+    <div class="manif-video-wrap">
+      <iframe
+        src="https://www.youtube.com/embed/LXb3EKWsInQ?autoplay=1&mute=1&loop=1&playlist=LXb3EKWsInQ&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&playsinline=1"
+        title="Manifiesto background"
+        frameborder="0"
+        allow="autoplay; fullscreen"
+        allowfullscreen>
+      </iframe>
+      <div class="manif-overlay"></div>
+    </div>
+
+    <div class="manif-content">
+      <div class="section-eyebrow light">02 — Nuestra declaración</div>
+      <h2 class="manif-title">El <em>Manifiesto</em></h2>
+
+      <blockquote class="manif-quote">
+        <span class="quote-mark">"</span>
+        Nos comprometemos a ejercer nuestra profesión con plena conciencia de su impacto social, guiados por principios que trascienden el beneficio propio y se orientan al bien común.
+        <span class="quote-mark closing">"</span>
+      </blockquote>
+
+      <div class="principles-row">
+        <div class="principle-item">
+          <div class="pr-num">01</div>
+          <h4>Transparencia</h4>
+          <p>Comunicamos con honestidad, sin omitir lo que afecta a otros.</p>
+        </div>
+        <div class="principle-item">
+          <div class="pr-num">02</div>
+          <h4>Justicia</h4>
+          <p>Reconocemos desigualdades y actuamos para no perpetuarlas.</p>
+        </div>
+        <div class="principle-item">
+          <div class="pr-num">03</div>
+          <h4>Sostenibilidad</h4>
+          <p>Pensamos en el largo plazo y en el impacto de cada decisión.</p>
+        </div>
+        <div class="principle-item">
+          <div class="pr-num">04</div>
+          <h4>Empatía</h4>
+          <p>Ponemos en el centro a las personas afectadas por nuestras acciones.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== MEDIA ==================== -->
+  <section id="media">
+    <div class="section-header-centered">
+      <div class="section-eyebrow">03 — Contenido audiovisual</div>
+      <h2 class="section-heading">Podcast & <em>Video-Reacción</em></h2>
+    </div>
+
+    <div class="media-layout">
+
+      <!-- PODCAST -->
+      <div class="media-block podcast-block">
+        <div class="media-video-container">
+          <!--
+            INSTRUCCIONES PARA AGREGAR TU VIDEO:
+            1. Sube tu podcast a YouTube
+            2. Copia el ID del video (ej: dQw4w9WgXcQ)
+            3. Reemplaza "TU_VIDEO_ID_AQUI" por ese ID
+          -->
+          <iframe
+            src="https://www.youtube.com/embed/TU_VIDEO_ID_AQUI?rel=0&modestbranding=1"
+            title="Podcast del equipo"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+          <div class="video-placeholder" id="podcastPh">
+            <div class="vph-inner">
+              <div class="vph-icon">🎙</div>
+              <span>Tu podcast aquí</span>
+              <small>Reemplaza el src del iframe con tu video de YouTube</small>
+            </div>
+          </div>
+        </div>
+        <div class="media-info">
+          <span class="media-tag">Podcast · Ep. 01</span>
+          <h3>[Título del episodio]</h3>
+          <p>Reflexión grupal sobre el dilema ético central del semestre y sus implicancias en el ejercicio profesional.</p>
+          <div class="media-meta">
+            <span>🕐 [Duración]</span>
+            <span>🎤 [Plataforma]</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- VIDEO REACCION -->
+      <div class="media-block video-block">
+        <div class="media-video-container">
+          <!--
+            INSTRUCCIONES:
+            Reemplaza "TU_VIDEO_REACCION_ID" con el ID de tu video de YouTube
+          -->
+          <iframe
+            src="https://www.youtube.com/embed/TU_VIDEO_REACCION_ID?rel=0&modestbranding=1"
+            title="Video-Reacción del equipo"
+            frameborder="0"
+            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+            allowfullscreen>
+          </iframe>
+          <div class="video-placeholder" id="videoPh">
+            <div class="vph-inner">
+              <div class="vph-icon">🎬</div>
+              <span>Tu video-reacción aquí</span>
+              <small>Reemplaza el src del iframe con tu video de YouTube</small>
+            </div>
+          </div>
+        </div>
+        <div class="media-info">
+          <span class="media-tag">Video-Reacción</span>
+          <h3>[Título del video]</h3>
+          <p>Nuestra reacción crítica y analítica a un caso audiovisual vinculado a la ética en el ejercicio profesional.</p>
+          <div class="media-meta">
+            <span>🕐 [Duración]</span>
+            <span>📺 YouTube</span>
+          </div>
+        </div>
+      </div>
+  </section>
+
+  <!-- ==================== INFOGRAFIA ==================== -->
+  <section id="infografia">
+    <div class="info-layout">
+      <div class="info-text">
+        <div class="section-eyebrow">04 — Visualización</div>
+        <h2 class="section-heading">La <em>Infografía</em></h2>
+        <div class="about-divider"></div>
+        <p>Mapeamos los principios éticos que guían nuestra práctica profesional, visualizando sus interrelaciones y jerarquías de forma gráfica.</p>
+        <p>Cada eje de la brújula representa un valor fundamental que orienta nuestras decisiones.</p>
+        <a href="#" class="cta-primary" style="display:inline-flex; margin-top:2rem;">
+          <span>Descargar PDF</span>
+          <div class="cta-arrow">↗</div>
+        </a>
+      </div>
+      <div class="info-visual-wrap">
+        <!-- Reemplaza con tu infografía: <img src="infografia.png" alt="infografía"> -->
+        <div class="compass-viz">
+          <svg viewBox="0 0 360 360" xmlns="http://www.w3.org/2000/svg">
+            <!-- Rings -->
+            <circle cx="180" cy="180" r="160" fill="none" stroke="rgba(201,168,76,0.08)" stroke-width="1"/>
+            <circle cx="180" cy="180" r="120" fill="none" stroke="rgba(201,168,76,0.12)" stroke-width="0.5"/>
+            <circle cx="180" cy="180" r="80"  fill="none" stroke="rgba(201,168,76,0.18)" stroke-width="0.5"/>
+            <circle cx="180" cy="180" r="40"  fill="none" stroke="rgba(201,168,76,0.28)" stroke-width="0.5"/>
+            <!-- Axes -->
+            <line x1="180" y1="20"  x2="180" y2="340" stroke="rgba(201,168,76,0.1)" stroke-width="0.5"/>
+            <line x1="20"  y1="180" x2="340" y2="180" stroke="rgba(201,168,76,0.1)" stroke-width="0.5"/>
+            <line x1="66"  y1="66"  x2="294" y2="294" stroke="rgba(201,168,76,0.06)" stroke-width="0.5"/>
+            <line x1="294" y1="66"  x2="66"  y2="294" stroke="rgba(201,168,76,0.06)" stroke-width="0.5"/>
+            <!-- Needle N -->
+            <polygon points="180,28 175,90 180,78 185,90" fill="#C9A84C" opacity="0.95"/>
+            <!-- Needle S -->
+            <polygon points="180,332 175,270 180,282 185,270" fill="rgba(201,168,76,0.3)" opacity="0.6"/>
+            <!-- Labels -->
+            <text x="180" y="18" text-anchor="middle" fill="#C9A84C" font-size="10" font-family="Syne, sans-serif" letter-spacing="3" font-weight="700">INTEGRIDAD</text>
+            <text x="180" y="355" text-anchor="middle" fill="rgba(245,240,232,0.35)" font-size="9" font-family="Syne, sans-serif" letter-spacing="2">RESPONSABILIDAD</text>
+            <text x="345" y="184" text-anchor="end" fill="rgba(245,240,232,0.35)" font-size="9" font-family="Syne, sans-serif" letter-spacing="2">TRANSPARENCIA</text>
+            <text x="15" y="184" text-anchor="start" fill="rgba(245,240,232,0.35)" font-size="9" font-family="Syne, sans-serif" letter-spacing="2">JUSTICIA</text>
+            <!-- Center -->
+            <circle cx="180" cy="180" r="12" fill="rgba(201,168,76,0.15)" stroke="#C9A84C" stroke-width="0.5"/>
+            <circle cx="180" cy="180" r="5" fill="#C9A84C"/>
+            <!-- Degree marks -->
+            <g stroke="rgba(201,168,76,0.2)" stroke-width="0.5">
+              <line x1="180" y1="20"  x2="180" y2="30"/>
+              <line x1="180" y1="330" x2="180" y2="340"/>
+              <line x1="20"  y1="180" x2="30"  y2="180"/>
+              <line x1="330" y1="180" x2="340" y2="180"/>
+            </g>
+          </svg>
+          <div class="compass-glow"></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ==================== FOOTER ==================== -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-logo">
+        Brújula <em>Ética</em>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <p>Ética y Deontología Profesional · HUM-010 · 2026-I</p>
+      <p>[Nombre de la carrera] · [Nombre del docente]</p>
+    </div>
+  </footer>
+
+  <script src="Animacion.js"></script>
+</body>
+</html>
