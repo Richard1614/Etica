@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
   if (mapContainer) {
     // Inicializar mapa centrado en Perú
     const map = L.map('peruMap').setView([-9.19, -75.0152], 5);
-    
+
     // Capa base oscura
     L.tileLayer('https://{s}.basemaps.cartocdn.com/dark_all/{z}/{x}/{y}{r}.png', {
       attribution: '&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors &copy; <a href="https://carto.com/attributions">CARTO</a>',
@@ -100,27 +100,67 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Datos de ejemplo para Ingeniería de Sistemas (Brecha Digital)
     const sistemasData = [
-      { name: 'Lima', lat: -12.0464, lng: -77.0428, vulnerability: 'bajo', value: 15, desc: 'Alta conectividad, 85% acceso a internet' },
-      { name: 'Arequipa', lat: -16.4097, lng: -71.5376, vulnerability: 'medio', value: 35, desc: 'Conectividad moderada, 65% acceso a internet' },
-      { name: 'Cusco', lat: -13.5319, lng: -71.9675, vulnerability: 'alto', value: 55, desc: 'Baja conectividad, 45% acceso a internet' },
-      { name: 'Puno', lat: -15.8402, lng: -70.0219, vulnerability: 'critico', value: 75, desc: 'Muy baja conectividad, 25% acceso a internet' },
-      { name: 'Loreto', lat: -3.7647, lng: -73.3037, vulnerability: 'critico', value: 80, desc: 'Extrema brecha digital, 20% acceso a internet' },
-      { name: 'Piura', lat: -5.1945, lng: -80.6328, vulnerability: 'alto', value: 60, desc: 'Baja conectividad rural, 40% acceso a internet' },
-      { name: 'La Libertad', lat: -7.9639, lng: -79.4386, vulnerability: 'medio', value: 40, desc: 'Conectividad moderada, 60% acceso a internet' },
-      { name: 'Ancash', lat: -9.532, lng: -77.5314, vulnerability: 'alto', value: 50, desc: 'Baja conectividad en zonas rurales, 50% acceso' }
-    ];
+    { name: 'Amazonas', lat: -6.2308, lng: -77.8691, vulnerability: 'critico', value: 78, desc: 'Extrema brecha, <25% acceso internet' },
+    { name: 'Ancash', lat: -9.5320, lng: -77.5314, vulnerability: 'alto', value: 50, desc: 'Baja conectividad en zonas rurales, 50% acceso' },
+    { name: 'Apurimac', lat: -13.6333, lng: -72.8833, vulnerability: 'critico', value: 75, desc: 'Muy alta brecha, <25% acceso internet' },
+    { name: 'Arequipa', lat: -16.4097, lng: -71.5376, vulnerability: 'bajo', value: 25, desc: 'Alta conectividad, >75% acceso internet' },
+    { name: 'Ayacucho', lat: -13.1611, lng: -74.2236, vulnerability: 'critico', value: 77, desc: 'Extrema brecha, <25% acceso internet' },
+    { name: 'Cajamarca', lat: -7.1638, lng: -78.5003, vulnerability: 'critico', value: 76, desc: 'Muy alta brecha, <25% acceso internet' },
+    { name: 'Callao', lat: -12.0621, lng: -77.1337, vulnerability: 'bajo', value: 10, desc: 'Alta conectividad, >85% acceso internet' },
+    { name: 'Cusco', lat: -13.5319, lng: -71.9675, vulnerability: 'alto', value: 55, desc: 'Baja conectividad, 45% acceso a internet' },
+    { name: 'Huancavelica', lat: -12.7833, lng: -74.9667, vulnerability: 'critico', value: 80, desc: 'Extrema brecha, <20% acceso internet' },
+    { name: 'Huanuco', lat: -9.9312, lng: -76.2429, vulnerability: 'critico', value: 79, desc: 'Extrema brecha, <25% acceso internet' },
+    { name: 'Ica', lat: -14.0678, lng: -75.7286, vulnerability: 'bajo', value: 20, desc: 'Alta conectividad, >75% acceso internet' },
+    { name: 'Junin', lat: -12.0651, lng: -75.2049, vulnerability: 'medio', value: 45, desc: 'Conectividad moderada, 55% acceso a internet' },
+    { name: 'La Libertad', lat: -7.9639, lng: -79.4386, vulnerability: 'medio', value: 40, desc: 'Conectividad moderada, 60% acceso a internet' },
+    { name: 'Lambayeque', lat: -6.7727, lng: -79.8378, vulnerability: 'medio', value: 38, desc: 'Conectividad moderada, 62% acceso a internet' },
+    { name: 'Lima', lat: -12.0464, lng: -77.0428, vulnerability: 'bajo', value: 15, desc: 'Alta conectividad, 85% acceso a internet' },
+    { name: 'Loreto', lat: -3.7647, lng: -73.3037, vulnerability: 'critico', value: 80, desc: 'Extrema brecha digital, 20% acceso a internet' },
+    { name: 'Madre de Dios', lat: -12.5933, lng: -69.1891, vulnerability: 'medio', value: 48, desc: 'Conectividad intermedia, 52% acceso a internet' },
+    { name: 'Moquegua', lat: -17.1983, lng: -70.9357, vulnerability: 'bajo', value: 28, desc: 'Alta conectividad, 72% acceso a internet' },
+    { name: 'Pasco', lat: -10.6728, lng: -76.2625, vulnerability: 'medio', value: 47, desc: 'Conectividad intermedia, 53% acceso a internet' },
+    { name: 'Piura', lat: -5.1945, lng: -80.6328, vulnerability: 'alto', value: 60, desc: 'Baja conectividad rural, 40% acceso a internet' },
+    { name: 'Puno', lat: -15.8402, lng: -70.0219, vulnerability: 'critico', value: 75, desc: 'Muy baja conectividad, 25% acceso a internet' },
+    { name: 'San Martin', lat: -6.4848, lng: -76.3683, vulnerability: 'medio', value: 46, desc: 'Conectividad intermedia, 54% acceso a internet' },
+    { name: 'Tacna', lat: -18.0146, lng: -70.2536, vulnerability: 'bajo', value: 22, desc: 'Alta conectividad, >75% acceso a internet' },
+    { name: 'Tumbes', lat: -3.5670, lng: -80.4515, vulnerability: 'medio', value: 35, desc: 'Conectividad moderada, 65% acceso a internet' },
+    { name: 'Ucayali', lat: -8.3791, lng: -74.5539, vulnerability: 'medio', value: 49, desc: 'Conectividad intermedia, 51% acceso a internet' }
+];
 
     // Datos de ejemplo para Nutrición (Desnutrición)
     const nutricionData = [
-      { name: 'Lima', lat: -12.0464, lng: -77.0428, vulnerability: 'bajo', value: 10, desc: 'Baja desnutrición infantil, 5% casos' },
-      { name: 'Arequipa', lat: -16.4097, lng: -71.5376, vulnerability: 'medio', value: 25, desc: 'Desnutrición moderada, 15% casos' },
-      { name: 'Cusco', lat: -13.5319, lng: -71.9675, vulnerability: 'alto', value: 45, desc: 'Alta desnutrición infantil, 30% casos' },
-      { name: 'Puno', lat: -15.8402, lng: -70.0219, vulnerability: 'critico', value: 65, desc: 'Desnutrición severa, 45% casos' },
-      { name: 'Loreto', lat: -3.7647, lng: -73.3037, vulnerability: 'critico', value: 70, desc: 'Desnutrición extrema, 50% casos' },
-      { name: 'Piura', lat: -5.1945, lng: -80.6328, vulnerability: 'alto', value: 50, desc: 'Alta desnutrición rural, 35% casos' },
-      { name: 'La Libertad', lat: -7.9639, lng: -79.4386, vulnerability: 'medio', value: 30, desc: 'Desnutrición moderada, 20% casos' },
-      { name: 'Ancash', lat: -9.532, lng: -77.5314, vulnerability: 'alto', value: 40, desc: 'Alta desnutrición en sierra, 28% casos' }
-    ];
+      { name: 'Huancavelica', lat: -12.7833, lng: -74.9667, vulnerability: 'critico', value: 24.0, desc: 'Tasa desnutrición 24.0% (2024)' },
+  { name: 'Amazonas', lat: -6.2308, lng: -77.8691, vulnerability: 'critico', value: 20.4, desc: 'Tasa desnutrición 20.4% (2024)' },
+  { name: 'Cajamarca', lat: -7.1638, lng: -78.5003, vulnerability: 'critico', value: 20.4, desc: 'Tasa desnutrición 20.4% (2024)' },
+  { name: 'Loreto', lat: -3.7647, lng: -73.3037, vulnerability: 'critico', value: 19.5, desc: 'Tasa desnutrición 19.5% (2024)' },
+  { name: 'Ucayali', lat: -8.3791, lng: -74.5539, vulnerability: 'critico', value: 19.4, desc: 'Tasa desnutrición 19.4% (2024)' },
+  
+  // ALTO (15-20%)
+  { name: 'Ayacucho', lat: -13.1611, lng: -74.2236, vulnerability: 'alto', value: 17.0, desc: 'Tasa desnutrición 17.0% (2024)' },
+  { name: 'Junin', lat: -12.0651, lng: -75.2049, vulnerability: 'alto', value: 17.8, desc: 'Tasa desnutrición 17.8% (2024)' },
+  { name: 'La Libertad', lat: -7.9639, lng: -79.4386, vulnerability: 'alto', value: 16.8, desc: 'Tasa desnutrición 16.8% (2024)' },
+  { name: 'Huanuco', lat: -9.9312, lng: -76.2429, vulnerability: 'alto', value: 16.5, desc: 'Tasa desnutrición 16.5% (2024)' },
+  
+  // MEDIO (10-14.9%)
+  { name: 'Ancash', lat: -9.5320, lng: -77.5314, vulnerability: 'medio', value: 13.5, desc: 'Tasa desnutrición 13.5% (2024)' },
+  { name: 'Lambayeque', lat: -6.7727, lng: -79.8378, vulnerability: 'medio', value: 13.1, desc: 'Tasa desnutrición 13.1% (2024)' },
+  { name: 'Cusco', lat: -13.5319, lng: -71.9675, vulnerability: 'medio', value: 12.1, desc: 'Tasa desnutrición 12.1% (2024)' },
+  { name: 'Puno', lat: -15.8402, lng: -70.0219, vulnerability: 'medio', value: 11.5, desc: 'Tasa desnutrición 11.5% (2024)' },
+  { name: 'Tumbes', lat: -3.5670, lng: -80.4515, vulnerability: 'medio', value: 10.4, desc: 'Tasa desnutrición 10.4% (2024)' },
+  { name: 'San Martin', lat: -6.4848, lng: -76.3683, vulnerability: 'medio', value: 10.0, desc: 'Tasa desnutrición 10.0% (2024)' },
+  { name: 'Pasco', lat: -10.6728, lng: -76.2625, vulnerability: 'medio', value: 14.1, desc: 'Tasa desnutrición 14.1% (2024)' },
+  
+  // BAJO (<10%)
+  { name: 'Lima Metropolitana', lat: -12.0464, lng: -77.0428, vulnerability: 'bajo', value: 4.3, desc: 'Tasa desnutrición 4.3% (2024)' },
+  { name: 'Arequipa', lat: -16.4097, lng: -71.5376, vulnerability: 'bajo', value: 5.6, desc: 'Tasa desnutrición 5.6% (2024)' },
+  { name: 'Callao', lat: -12.0621, lng: -77.1337, vulnerability: 'bajo', value: 6.2, desc: 'Tasa desnutrición 6.2% (2024)' },
+  { name: 'Ica', lat: -14.0678, lng: -75.7286, vulnerability: 'bajo', value: 7.6, desc: 'Tasa desnutrición 7.6% (2024)' },
+  { name: 'Madre de Dios', lat: -12.5933, lng: -69.1891, vulnerability: 'bajo', value: 8.4, desc: 'Tasa desnutrición 8.4% (2024)' },
+  { name: 'Apurimac', lat: -13.6333, lng: -72.8833, vulnerability: 'bajo', value: 15.7, desc: 'Tasa desnutrición 15.7% (2024)' },
+  { name: 'Piura', lat: -5.1945, lng: -80.6328, vulnerability: 'bajo', value: 14.3, desc: 'Tasa desnutrición 14.3% (2024)' },
+  { name: 'Moquegua', lat: -17.1983, lng: -70.9357, vulnerability: 'bajo', value: 2.7, desc: 'Tasa desnutrición 2.7% (2024)' },
+  { name: 'Tacna', lat: -18.0146, lng: -70.2536, vulnerability: 'bajo', value: 2.9, desc: 'Tasa desnutrición 2.9% (2024)' }
+];
 
     // Colores según vulnerabilidad
     const colors = {
@@ -140,8 +180,11 @@ document.addEventListener('DOMContentLoaded', () => {
       currentMarkers = [];
 
       data.forEach(item => {
+        // Usar diferente tamaño según la carrera activa
+        const radius = currentCareer === 'nutricion' ? item.value / 0.5 : item.value / 2;
+        
         const marker = L.circleMarker([item.lat, item.lng], {
-          radius: item.value / 5,
+          radius: radius,
           fillColor: colors[item.vulnerability],
           color: colors[item.vulnerability],
           weight: 2,
@@ -188,7 +231,16 @@ document.addEventListener('DOMContentLoaded', () => {
     function updateStats(data) {
       const totalRegions = data.length;
       const highVulnerability = data.filter(d => d.vulnerability === 'alto' || d.vulnerability === 'critico').length;
-      const avgIndex = Math.round(data.reduce((sum, d) => sum + d.value, 0) / data.length);
+      
+      // Calcular índice promedio según la carrera activa
+      let avgIndex;
+      if (currentCareer === 'sistemas') {
+        // Valor personalizado para Ingeniería de Sistemas
+        avgIndex = 18.39; // Puedes ajustar este valor
+      } else {
+        // Valor personalizado para Nutrición
+        avgIndex = 12.1; // Puedes ajustar este valor
+      }
 
       document.getElementById('totalRegions').textContent = totalRegions;
       document.getElementById('highVulnerability').textContent = highVulnerability;
