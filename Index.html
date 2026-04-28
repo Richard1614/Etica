@@ -6,6 +6,8 @@
   <title>Núcleo y Fusión Ética · Portafolio Digital 2026-I</title>
   <link rel="stylesheet" href="Diseño.css" />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,600;1,300;1,600&family=Syne:wght@400;700;800&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
 </head>
 <body>
 
@@ -30,6 +32,7 @@
       <li><a href="#hero">Inicio</a></li>
       <li><a href="#equipo">Equipo</a></li>
       <li><a href="#manifiesto">Manifiesto</a></li>
+      <li><a href="#mapa">Mapa</a></li>
       <li><a href="#media">Media</a></li>
       <li><a href="#infografia">Infografía</a></li>
     </ul>
@@ -91,7 +94,7 @@
       <div class="hero-meta">
         <div class="meta-item">
           <span class="meta-label">Carrera</span>
-          <span class="meta-val">Ingenieria de Sistemas/Nutricion</span>
+          <span class="meta-val">Ingenieria de Sistemas/Nutrición y Dietética</span>
         </div>
         <div class="meta-sep"></div>
         <div class="meta-item">
@@ -249,6 +252,81 @@
     </div>
   </section>
 
+  <!-- ==================== MAPA INTERACTIVO ==================== -->
+  <section id="mapa">
+    <div class="section-header-centered">
+      <div class="section-eyebrow">03 — Poblaciones Vulnerables</div>
+      <h2 class="section-heading">Mapa <em>Interactivo</em></h2>
+    </div>
+
+    <!-- Switch de carreras -->
+    <div class="career-switch">
+      <button class="switch-btn active" data-career="sistemas">
+        <span class="switch-icon">💻</span>
+        <span class="switch-text">Ingeniería de Sistemas</span>
+      </button>
+      <button class="switch-btn" data-career="nutricion">
+        <span class="switch-icon">🥗</span>
+        <span class="switch-text">Nutrición</span>
+      </button>
+    </div>
+
+    <!-- Contenedor del mapa -->
+    <div class="map-container">
+      <div id="peruMap"></div>
+      
+      <!-- Leyenda -->
+      <div class="map-legend">
+        <div class="legend-title">Nivel de Vulnerabilidad</div>
+        <div class="legend-items">
+          <div class="legend-item">
+            <span class="legend-color" style="background: #2ecc71;"></span>
+            <span>Bajo</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-color" style="background: #f1c40f;"></span>
+            <span>Medio</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-color" style="background: #e74c3c;"></span>
+            <span>Alto</span>
+          </div>
+          <div class="legend-item">
+            <span class="legend-color" style="background: #8e44ad;"></span>
+            <span>Crítico</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Panel de información -->
+      <div class="map-info-panel" id="mapInfoPanel">
+        <div class="info-panel-header">
+          <h3 id="regionName">Selecciona una región</h3>
+          <button class="close-panel" id="closePanel">×</button>
+        </div>
+        <div class="info-panel-content" id="infoPanelContent">
+          <p>Haz clic en una región del mapa para ver información detallada sobre las poblaciones vulnerables.</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Estadísticas rápidas -->
+    <div class="map-stats">
+      <div class="stat-card">
+        <div class="stat-number" id="totalRegions">25</div>
+        <div class="stat-label">Regiones Analizadas</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="highVulnerability">8</div>
+        <div class="stat-label">Alta Vulnerabilidad</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number" id="avgIndex">45%</div>
+        <div class="stat-label">Índice Promedio</div>
+      </div>
+    </div>
+  </section>
+
   <!-- ==================== MEDIA ==================== -->
   <section id="media">
     <div class="section-header-centered">
@@ -390,7 +468,7 @@
     </div>
     <div class="footer-bottom">
       <p>Ética y Deontología Profesional · 2026-I</p>
-      <p>Ingenieria de sistemas/Nutricion Dietetica ·Luis Guillermo Mendoza Velarde</p>
+      <p>Ingenieria de sistemas/Nutrición y Dietética ·Luis Guillermo Mendoza Velarde</p>
     </div>
   </footer>
 
