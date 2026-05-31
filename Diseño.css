@@ -16,6 +16,21 @@
 
   --font-display: 'Cormorant Garamond', serif;
   --font-ui:      'Syne', sans-serif;
+
+  /* Layout fluido: móvil → 2K */
+  --content-max:  min(92vw, 1400px);
+  --content-wide: min(94vw, 1680px);
+  --section-x:    clamp(1.25rem, 4vw, 5rem);
+  --section-y:    clamp(4rem, 7vw, 10rem);
+  --hero-card-max: min(92vw, 920px);
+  --nav-gap:      clamp(1rem, 2vw, 2.5rem);
+
+  /* ── Tamaños de secciones (ajústalos aquí) ─────────────── */
+  --hero-height:       100vh;           /* altura pantalla inicial */
+  --manif-min-height:  0;               /* 0 = según contenido; prueba 70vh o 100vh */
+  --map-box-height:    clamp(380px, 50vh, 680px);  /* caja del mapa Leaflet */
+  --media-video-ratio: 16 / 9;          /* proporción videos podcast / reacción */
+  --vertical-img-max:  min(900px, 85vw); /* ancho máx. mapa crítico */
 }
 
 /* ── RESET ───────────────────────────────────────────────── */
@@ -35,6 +50,13 @@ body {
 
 a { text-decoration: none; color: inherit; }
 img { max-width: 100%; display: block; }
+
+/* Contención: cada sección en su capa (evita videos/fondos en secciones vecinas) */
+section[id] {
+  position: relative;
+  isolation: isolate;
+  scroll-margin-top: 5.5rem;
+}
 
 /* ── LOADER ──────────────────────────────────────────────── */
 .loader {
@@ -82,10 +104,11 @@ img { max-width: 100%; display: block; }
 nav {
   position: fixed;
   top: 0; left: 0; right: 0;
-  padding: 2rem 3rem;
+  padding: clamp(1rem, 2vw, 2rem) clamp(1.25rem, 3vw, 3rem);
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 1rem;
   z-index: 1000;
   background: rgba(7, 8, 15, 0.95);
   backdrop-filter: blur(20px);
@@ -105,7 +128,9 @@ nav {
 
 .nav-links {
   display: flex;
-  gap: 4rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: var(--nav-gap);
   list-style: none;
 }
 
@@ -113,7 +138,7 @@ nav {
   font-size: 0.85rem;
   letter-spacing: 0.2em;
   text-transform: uppercase;
-  color: var(--muted);
+  color: white;
   transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   position: relative;
   padding: 0.5rem 0;
@@ -157,7 +182,11 @@ nav {
 .hamburger {
   display: none;
   flex-direction: column;
+  justify-content: center;
   gap: 5px;
+  padding: 0.5rem;
+  background: none;
+  border: none;
   cursor: pointer;
 }
 
@@ -171,8 +200,10 @@ nav {
 /* ── HERO (INICIO) ──────────────────────────────────────── */
 #hero {
   position: relative;
-  height: 100vh;
+  height: var(--hero-height);
+  min-height: 100svh;
   overflow: hidden;
+  z-index: 1;
 }
 
 .hero-video-wrap {
@@ -181,15 +212,36 @@ nav {
   z-index: 0;
 }
 
+/* Ocultar videos en móviles para ahorrar datos */
+@media (max-width: 768px) {
+  .hero-video-wrap iframe,
+  .manif-video-wrap iframe {
+    display: none;
+  }
+  
+  .hero-video-fallback {
+    display: block !important;
+    background: linear-gradient(
+      135deg,
+      var(--navy) 0%,
+      var(--navy-mid) 50%,
+      var(--navy-lite) 100%
+    );
+  }
+}
+
 .hero-video-wrap iframe {
   position: absolute;
-  top: 50%; left: 50%;
-  width: 177.78vh;
-  height: 100%;
+  top: 50%;
+  left: 50%;
+  width: auto;
+  height: auto;
   min-width: 100%;
-  min-height: 56.25vw;
+  min-height: 100%;
+  aspect-ratio: 16 / 9;
   transform: translate(-50%, -50%);
   pointer-events: none;
+  border: 0;
 }
 
 .hero-video-fallback {
@@ -228,8 +280,9 @@ nav {
   justify-content: center;
   align-items: center;
   text-align: center;
-  padding: 3rem;
-  max-width: 800px;
+  padding: clamp(2rem, 4vw, 3.5rem);
+  width: 100%;
+  max-width: var(--hero-card-max);
   background: rgba(20, 24, 40, 0.4);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -262,9 +315,9 @@ nav {
 
 .hero-title {
   font-family: var(--font-display);
-  font-size: clamp(3rem, 8vw, 6rem);
+  font-size: clamp(2.5rem, 4vw + 1.5rem, 6.5rem);
   font-weight: 300;
-  line-height: 1;
+  line-height: 1.05;
   color: var(--cream);
   margin-bottom: 1rem;
 }
@@ -279,8 +332,18 @@ nav {
 
 .hero-meta {
   display: flex;
-  gap: 2rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(1rem, 2vw, 2rem);
   margin-bottom: 2rem;
+  width: 100%;
+}
+
+.meta-sep {
+  width: 1px;
+  min-height: 2.5rem;
+  background: var(--border);
+  align-self: stretch;
 }
 
 .meta-item {
@@ -334,12 +397,90 @@ nav {
   background: rgba(240, 235, 224, 0.05);
 }
 
+/* Decoración hero */
+.hero-lines {
+  position: absolute;
+  inset: 0;
+  z-index: 4;
+  pointer-events: none;
+}
+
+.h-line, .v-line {
+  position: absolute;
+  background: rgba(201, 168, 76, 0.12);
+}
+
+.h-line { height: 1px; width: clamp(80px, 12vw, 200px); }
+.v-line { width: 1px; height: clamp(80px, 12vh, 200px); }
+.h-line-1 { top: 18%; left: 8%; }
+.h-line-2 { bottom: 22%; right: 10%; width: clamp(60px, 8vw, 140px); }
+.v-line-1 { top: 12%; right: 14%; }
+.v-line-2 { bottom: 18%; left: 12%; }
+
+.hero-scroll-indicator {
+  position: absolute;
+  bottom: 2rem;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 10;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.5rem;
+  font-size: 0.65rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+
+.scroll-track {
+  width: 1px;
+  height: 48px;
+  background: rgba(201, 168, 76, 0.2);
+  position: relative;
+  overflow: hidden;
+}
+
+.scroll-thumb {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 30%;
+  background: var(--gold);
+  animation: scrollPulse 2s ease-in-out infinite;
+}
+
+@keyframes scrollPulse {
+  0%, 100% { transform: translateY(0); opacity: 1; }
+  50% { transform: translateY(140%); opacity: 0.4; }
+}
+
+.hero-year {
+  position: absolute;
+  right: clamp(1rem, 3vw, 3rem);
+  bottom: clamp(1.5rem, 4vh, 3rem);
+  z-index: 10;
+  font-family: var(--font-display);
+  font-size: clamp(3rem, 8vw, 7rem);
+  font-weight: 300;
+  line-height: 1;
+  color: rgba(201, 168, 76, 0.12);
+  pointer-events: none;
+  user-select: none;
+}
+
+nav.scrolled {
+  padding: 1rem clamp(1.25rem, 3vw, 3rem);
+}
+
 /* ── EQUIPO ───────────────────────────────────────────────── */
 #equipo {
-  padding: 10rem 4rem 10rem 4rem;
+  padding: var(--section-y) var(--section-x);
   background: var(--navy-mid);
   max-width: 100%;
   margin: 0;
+  z-index: 2;
 }
 
 .section-header-centered {
@@ -357,7 +498,7 @@ nav {
 
 .section-heading {
   font-family: var(--font-display);
-  font-size: clamp(2.5rem, 5vw, 3.5rem);
+  font-size: clamp(2rem, 2.5vw + 1.25rem, 4rem);
   font-weight: 300;
   color: var(--cream);
   margin-bottom: 1.5rem;
@@ -367,10 +508,11 @@ nav {
 
 .team-grid {
   display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  gap: 3rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 340px), 1fr));
+  gap: clamp(1.5rem, 3vw, 3rem);
   border: none;
-  max-width: 1400px;
+  width: 100%;
+  max-width: var(--content-max);
   margin: 0 auto;
 }
 
@@ -441,28 +583,47 @@ nav {
 
 /* ── MANIFIESTO ─────────────────────────────────────────── */
 #manifiesto {
-  padding: 10rem 4rem 10rem 4rem;
+  padding: var(--section-y) var(--section-x);
   background: var(--navy);
   max-width: 100%;
   margin: 0;
   position: relative;
+  overflow: hidden;
+  min-height: var(--manif-min-height);
+  z-index: 3;
 }
 
 .manif-video-wrap {
   position: absolute;
   inset: 0;
   z-index: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+/* Ocultar videos en móviles para ahorrar datos */
+@media (max-width: 768px) {
+  .manif-video-wrap iframe {
+    display: none;
+  }
+  
+  .manif-overlay {
+    background: rgba(7, 8, 15, 0.95) !important;
+  }
 }
 
 .manif-video-wrap iframe {
   position: absolute;
-  top: 50%; left: 50%;
-  width: 177.78vh;
-  height: 100%;
+  top: 50%;
+  left: 50%;
+  width: auto;
+  height: auto;
   min-width: 100%;
-  min-height: 56.25vw;
+  min-height: 100%;
+  aspect-ratio: 16 / 9;
   transform: translate(-50%, -50%);
   pointer-events: none;
+  border: 0;
 }
 
 .manif-overlay {
@@ -476,7 +637,8 @@ nav {
   position: relative;
   z-index: 10;
   text-align: center;
-  max-width: 1400px;
+  width: 100%;
+  max-width: var(--content-max);
   margin: 0 auto;
 }
 
@@ -506,8 +668,10 @@ nav {
 .principles-row {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
-  gap: 2rem;
+  gap: clamp(1rem, 2vw, 2rem);
   border: none;
+  max-width: 900px;
+  margin: 0 auto;
 }
 
 .principle-item {
@@ -545,17 +709,19 @@ nav {
 
 /* ── MEDIA ───────────────────────────────────────────────── */
 #media {
-  padding: 10rem 4rem 10rem 4rem;
+  padding: var(--section-y) var(--section-x);
   background: var(--navy-mid);
   max-width: 100%;
   margin: 0;
+  z-index: 8;
 }
 
 .media-layout {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 3rem;
-  max-width: 1400px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 420px), 1fr));
+  gap: clamp(1.5rem, 3vw, 3rem);
+  width: 100%;
+  max-width: var(--content-max);
   margin: 0 auto;
 }
 
@@ -575,7 +741,7 @@ nav {
 
 .media-video-container {
   position: relative;
-  aspect-ratio: 16/9;
+  aspect-ratio: var(--media-video-ratio);
   background: rgba(20, 24, 40, 0.4);
   backdrop-filter: blur(20px);
   -webkit-backdrop-filter: blur(20px);
@@ -590,6 +756,74 @@ nav {
   inset: 0;
   width: 100%;
   height: 100%;
+}
+
+/* ── PODCAST (audio + portada) ─────────────────────────── */
+.podcast-player {
+  position: relative;
+  aspect-ratio: var(--media-video-ratio);
+  border-radius: 16px;
+  overflow: hidden;
+  border: 1px solid rgba(201, 168, 76, 0.15);
+  box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+}
+
+.podcast-player-bg {
+  position: absolute;
+  inset: 0;
+  background-image: var(--podcast-cover, none);
+  background-size: cover;
+  background-position: center;
+  background-color: var(--navy-lite);
+}
+
+.podcast-player-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(7, 8, 15, 0.35) 0%,
+    rgba(7, 8, 15, 0.65) 55%,
+    rgba(7, 8, 15, 0.92) 100%
+  );
+}
+
+.podcast-player-content {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-end;
+  height: 100%;
+  padding: clamp(1.25rem, 3vw, 2rem);
+  gap: 0.75rem;
+}
+
+.podcast-player-icon {
+  font-size: clamp(2rem, 5vw, 3rem);
+  line-height: 1;
+  filter: drop-shadow(0 4px 12px rgba(0, 0, 0, 0.4));
+}
+
+.podcast-player-label {
+  font-size: 0.7rem;
+  letter-spacing: 0.2em;
+  text-transform: uppercase;
+  color: var(--gold);
+  margin: 0;
+}
+
+.podcast-audio {
+  width: 100%;
+  max-width: 100%;
+  height: 40px;
+  border-radius: 8px;
+  outline: none;
+}
+
+.podcast-audio::-webkit-media-controls-panel {
+  background: rgba(20, 24, 40, 0.85);
 }
 
 .video-placeholder {
@@ -666,18 +900,20 @@ nav {
 
 /* ── INFOGRAFIA ─────────────────────────────────────────── */
 #infografia {
-  padding: 10rem 4rem 10rem 4rem;
+  padding: var(--section-y) var(--section-x);
   background: var(--navy);
   max-width: 100%;
   margin: 0;
+  z-index: 9;
 }
 
 .info-layout {
   display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 4rem;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 380px), 1fr));
+  gap: clamp(2rem, 4vw, 4rem);
   align-items: center;
-  max-width: 1400px;
+  width: 100%;
+  max-width: var(--content-max);
   margin: 0 auto;
 }
 
@@ -796,10 +1032,11 @@ footer {
 
 /* ── MAPA INTERACTIVO ───────────────────────────────────── */
 #mapa {
-  padding: 10rem 4rem 10rem 4rem;
+  padding: var(--section-y) var(--section-x);
   background: var(--navy-mid);
   max-width: 100%;
   margin: 0;
+  z-index: 5;
 }
 
 .career-switch {
@@ -842,8 +1079,10 @@ footer {
 
 .map-container {
   position: relative;
-  height: 600px;
-  margin-bottom: 3rem;
+  height: var(--map-box-height);
+  width: 100%;
+  max-width: var(--content-max);
+  margin: 0 auto 3rem;
   border-radius: 20px;
   overflow: hidden;
   border: 1px solid rgba(201, 168, 76, 0.15);
@@ -956,9 +1195,10 @@ footer {
 
 .map-stats {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  gap: 2rem;
-  max-width: 1400px;
+  grid-template-columns: repeat(auto-fit, minmax(min(100%, 220px), 1fr));
+  gap: clamp(1rem, 2vw, 2rem);
+  width: 100%;
+  max-width: var(--content-max);
   margin: 0 auto;
 }
 
@@ -997,7 +1237,7 @@ footer {
 
 /* ── JERARQUÍA DE VALORES ───────────────────────────────── */
 #jerarquia {
-  padding: 4rem 4rem 8rem 4rem;
+  padding: var(--section-y) var(--section-x);
   background: linear-gradient(
     180deg,
     var(--navy-mid) 0%,
@@ -1005,10 +1245,12 @@ footer {
   );
   max-width: 100%;
   margin: 0;
+  z-index: 6;
 }
 
 .jerarquia-layout {
-  max-width: 1400px;
+  width: 100%;
+  max-width: var(--content-max);
   margin: 0 auto;
 }
 
@@ -1172,64 +1414,349 @@ footer {
 }
 
 /* ── RESPONSIVE ─────────────────────────────────────────── */
-@media (max-width: 768px) {
-  nav { padding: 1rem; }
-  .nav-links { display: none; }
-  .nav-share { display: none; }
-  .hamburger { display: flex; }
+
+/* Pantallas verticales extremas (aspect ratio > 1.5) */
+@media (max-width: 480px) and (min-aspect-ratio: 2/3) {
+  html {
+    font-size: 14px;
+  }
   
-  .nav-links.open {
-    display: flex;
-    flex-direction: column;
+  nav {
+    padding: 0.75rem 1rem;
+  }
+  
+  .nav-logo {
+    font-size: 1rem;
+  }
+  
+  .hero-content {
+    padding: 1.5rem 1rem;
+    margin: 0 0.5rem;
+    max-width: 98%;
+  }
+  
+  .hero-title {
+    font-size: clamp(1.5rem, 15vw, 2.5rem);
+    line-height: 1;
+  }
+  
+  .hero-tagline {
+    font-size: 0.85rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .hero-badge {
+    font-size: 0.6rem;
+    padding: 0.3rem 0.6rem;
+    margin-bottom: 1.5rem;
+  }
+  
+  .hero-cta {
+    gap: 0.75rem;
+  }
+  
+  .cta-primary, .cta-ghost {
+    padding: 0.6rem 1rem;
+    font-size: 0.8rem;
+  }
+  
+  #equipo, #manifiesto, #media, #infografia, #mapa, #jerarquia, #metafora, #imagen-vertical {
+    padding: 3rem 0.75rem 3rem 0.75rem;
+  }
+  
+  .section-header-centered {
+    margin-bottom: 1.5rem;
+  }
+  
+  .section-heading {
+    font-size: clamp(1.3rem, 10vw, 1.8rem);
+  }
+  
+  .section-eyebrow {
+    font-size: 0.65rem;
+    margin-bottom: 1rem;
+  }
+  
+  .team-grid {
+    gap: 1rem;
+    padding: 0 0.25rem;
+  }
+  
+  .team-card {
+    padding: 1.2rem;
+  }
+  
+  .team-img {
+    width: 80px;
+    height: 80px;
+  }
+  
+  .team-info h3 {
+    font-size: 1rem;
+    margin-bottom: 0.5rem;
+  }
+  
+  .team-role {
+    font-size: 0.7rem;
+    margin-bottom: 1rem;
+  }
+  
+  .team-desc {
+    font-size: 0.75rem;
+    line-height: 1.5;
+  }
+  
+  .principles-row {
+    gap: 1rem;
+  }
+  
+  .principle-item {
+    padding: 1rem;
+  }
+  
+  .principle-item h4 {
+    font-size: 0.8rem;
+  }
+  
+  .principle-item p {
+    font-size: 0.75rem;
+  }
+  
+  .map-container {
+    height: 300px;
+    margin: 0.5rem;
+  }
+  
+  .map-legend {
+    padding: 0.75rem;
+  }
+  
+  .legend-item {
+    font-size: 0.75rem;
+  }
+  
+  .stat-card {
+    padding: 1.2rem;
+  }
+  
+  .stat-number {
+    font-size: 1.5rem;
+  }
+  
+  .stat-label {
+    font-size: 0.7rem;
+  }
+  
+  .media-block {
+    padding: 1rem;
+  }
+  
+  .media-info h3 {
+    font-size: 0.95rem;
+  }
+  
+  .media-info p {
+    font-size: 0.75rem;
+  }
+  
+  .info-text {
+    padding: 1.2rem;
+  }
+  
+  .info-text p {
+    font-size: 0.8rem;
+  }
+}
+
+/* Móvil estrecho: una sola columna (sin forzar 2 cols en pantallas pequeñas) */
+@media (max-width: 600px) {
+  .team-grid,
+  .map-stats,
+  .media-layout,
+  .info-layout {
+    grid-template-columns: 1fr;
+  }
+
+  .principles-row {
+    grid-template-columns: repeat(2, 1fr);
+    max-width: 100%;
+  }
+
+  .principle-item {
+    padding: 1.25rem;
+  }
+}
+
+/* Tablets verticales */
+@media (max-width: 768px) and (orientation: portrait) {
+  .hero-content {
+    padding: 2rem 1.5rem;
+    max-width: 92%;
+  }
+  
+  .team-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+  }
+  
+  .map-container {
+    height: 350px;
+  }
+  
+  .jerarquia-pyramid {
+    padding: 1rem 0;
+  }
+  
+  .pyramid-img {
+    max-height: 400px;
+    object-fit: contain;
+  }
+}
+
+/* Responsive estándar */
+@media (max-width: 768px) {
+  nav { 
+    padding: 1rem; 
+    position: fixed;
+  }
+  
+  .nav-links { 
+    display: none; 
     position: fixed;
     top: 60px;
     left: 0;
     right: 0;
-    background: var(--navy);
+    background: rgba(7, 8, 15, 0.98);
+    backdrop-filter: blur(20px);
+    flex-direction: column;
     padding: 2rem;
     gap: 1rem;
+    border-bottom: 1px solid rgba(201, 168, 76, 0.2);
   }
   
-  .team-grid { grid-template-columns: 1fr; }
-  .principles-row { grid-template-columns: 1fr; }
-  .hero-meta { flex-direction: column; gap: 1rem; }
+  .nav-links.active {
+    display: flex;
+  }
+  
+  .nav-links a {
+    padding: 1rem;
+    border-bottom: 1px solid rgba(201, 168, 76, 0.1);
+    text-align: center;
+  }
+  
+  .nav-links a:last-child {
+    border-bottom: none;
+  }
+  
+  .nav-share { 
+    display: none; 
+  }
+  
+  .hamburger { 
+    display: flex; 
+    z-index: 1001;
+  }
+  
+  .hamburger.active span:nth-child(1) {
+    transform: rotate(45deg) translate(5px, 5px);
+  }
+  
+  .hamburger.active span:nth-child(2) {
+    opacity: 0;
+  }
+  
+  .hamburger.active span:nth-child(3) {
+    transform: rotate(-45deg) translate(7px, -6px);
+  }
+  
+  .team-grid { 
+    grid-template-columns: 1fr; 
+    gap: 2rem;
+    padding: 0 1rem;
+  }
+  
+  .hero-meta { 
+    flex-direction: column; 
+    gap: 1rem; 
+    align-items: flex-start;
+  }
+  
+  .meta-sep {
+    display: none;
+  }
   
   #equipo, #manifiesto, #media, #infografia, #mapa, #jerarquia {
-    padding: 6rem 2rem 6rem 2rem;
+    padding: 6rem 1.5rem 6rem 1.5rem;
   }
   
   .hero-content {
-    padding: 2rem;
-    max-width: 90%;
+    padding: 2rem 1.5rem;
+    max-width: min(95vw, var(--hero-card-max));
+    margin: 0 auto;
+  }
+  
+  .hero-title {
+    font-size: clamp(2rem, 10vw, 3.5rem);
+    line-height: 1.1;
+  }
+  
+  .hero-cta {
+    flex-direction: column;
+    gap: 1rem;
+    width: 100%;
+  }
+  
+  .cta-primary, .cta-ghost {
+    width: 100%;
+    justify-content: center;
+    text-align: center;
   }
   
   .media-layout {
     grid-template-columns: 1fr;
+    gap: 2rem;
   }
   
   .info-layout {
     grid-template-columns: 1fr;
+    gap: 2rem;
   }
   
   .career-switch {
     flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .switch-btn {
+    width: 100%;
+    justify-content: center;
   }
   
   .map-container {
     height: 400px;
+    margin: 1rem;
   }
   
   .map-legend {
-    bottom: 10px;
-    right: 10px;
-    padding: 1rem;
+    position: static;
+    margin-top: 1rem;
+    width: 100%;
   }
   
   .map-info-panel {
-    width: calc(100% - 40px);
-    left: 20px;
-    right: 20px;
-    top: 10px;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    width: 100%;
+    max-height: 50vh;
+    border-radius: 20px 20px 0 0;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+  }
+  
+  .map-info-panel.active {
+    transform: translateY(0);
   }
   
   .map-stats {
@@ -1239,6 +1766,7 @@ footer {
   
   .section-header-centered {
     margin-bottom: 2rem;
+    padding: 0 1rem;
   }
 
   .jerarquia-intro {
@@ -1250,7 +1778,7 @@ footer {
   }
 
   .pyramid-image-container {
-    padding: 1.5rem;
+    padding: 1rem;
     max-width: 100%;
   }
 
@@ -1260,30 +1788,138 @@ footer {
 
   .statement-box p {
     font-size: 0.95rem;
-  }
-}
-
-@media (max-width: 480px) {
-  .nav-logo { font-size: 1.5rem; }
-  
-  .hero-title {
-    font-size: clamp(2rem, 8vw, 3rem);
-  }
-  
-  .team-grid {
-    gap: 1.5rem;
+    line-height: 1.6;
   }
   
   .team-card {
     padding: 2rem;
   }
   
+  .team-img {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .team-info h3 {
+    font-size: 1.3rem;
+  }
+  
+  .team-role {
+    font-size: 0.85rem;
+  }
+  
+  .team-desc {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .nav-logo { 
+    font-size: 1.2rem; 
+  }
+  
+  .hero-title {
+    font-size: clamp(1.75rem, 12vw, 2.8rem);
+  }
+  
+  .hero-tagline {
+    font-size: 0.9rem;
+  }
+  
+  .team-grid {
+    gap: 1.5rem;
+    padding: 0 0.5rem;
+  }
+  
+  .team-card {
+    padding: 1.5rem;
+  }
+  
+  .team-img {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .team-info h3 {
+    font-size: 1.1rem;
+  }
+  
+  .team-role {
+    font-size: 0.8rem;
+  }
+  
+  .team-desc {
+    font-size: 0.85rem;
+    line-height: 1.6;
+  }
+  
   .map-container {
     height: 350px;
+    margin: 0.5rem;
   }
   
   .stat-number {
     font-size: 2rem;
+  }
+  
+  .section-heading {
+    font-size: clamp(1.5rem, 8vw, 2rem);
+  }
+  
+  .section-eyebrow {
+    font-size: 0.7rem;
+  }
+  
+  .principle-item {
+    padding: 1.5rem;
+  }
+  
+  .principle-item h4 {
+    font-size: 0.9rem;
+  }
+  
+  .principle-item p {
+    font-size: 0.85rem;
+  }
+  
+  .manif-quote {
+    font-size: 1rem;
+    padding: 1rem;
+    margin: 0 1rem 2rem;
+  }
+  
+  .media-block {
+    padding: 1.5rem;
+  }
+  
+  .media-info h3 {
+    font-size: 1.1rem;
+  }
+  
+  .media-info p {
+    font-size: 0.8rem;
+  }
+  
+  .info-text {
+    padding: 2rem;
+  }
+  
+  .info-text p {
+    font-size: 0.9rem;
+  }
+  
+  #equipo, #manifiesto, #media, #infografia, #mapa, #jerarquia, #metafora, #imagen-vertical {
+    padding: 4rem 1rem 4rem 1rem;
+  }
+  
+  .hero-content {
+    padding: 1.5rem;
+    margin: 0 0.5rem;
+  }
+  
+  .hero-badge {
+    font-size: 0.65rem;
+    padding: 0.4rem 0.8rem;
   }
 }
 
@@ -1442,12 +2078,17 @@ footer {
 
 /* ==================== METÁFORA ARTÍSTICA ==================== */
 #metafora {
-  padding: 6rem 2rem;
-  background: linear-gradient(180deg, 
-    rgba(245, 240, 232, 0.3) 0%, 
-    rgba(245, 240, 232, 0.1) 100%);
+  padding: var(--section-y) var(--section-x);
+  background: var(--navy);
   position: relative;
   overflow: hidden;
+  z-index: 4;
+}
+
+#metafora .section-header-centered,
+#metafora .metafora-layout {
+  position: relative;
+  z-index: 1;
 }
 
 #metafora::before {
@@ -1457,11 +2098,12 @@ footer {
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(circle at 50% 30%, rgba(201, 168, 76, 0.06) 0%, transparent 50%),
-              radial-gradient(circle at 30% 70%, rgba(201, 168, 76, 0.04) 0%, transparent 40%),
-              radial-gradient(circle at 70% 60%, rgba(201, 168, 76, 0.03) 0%, transparent 45%);
-  animation: metaforaGlow 10s ease-in-out infinite alternate;
-  pointer-events: none;
+  background-image: url('ruta-de-tu-imagen-de-fondo.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.3;
+  z-index: 0;
 }
 
 .metafora-liquid-overlay {
@@ -1510,7 +2152,8 @@ footer {
 }
 
 .metafora-layout {
-  max-width: 1200px;
+  width: 100%;
+  max-width: var(--content-max);
   margin: 0 auto;
   text-align: center;
 }
@@ -1651,12 +2294,17 @@ footer {
 
 /* ==================== IMAGEN VERTICAL ==================== */
 #imagen-vertical {
-  padding: 6rem 2rem;
-  background: linear-gradient(180deg, 
-    rgba(245, 240, 232, 0.2) 0%, 
-    rgba(245, 240, 232, 0.05) 100%);
+  padding: var(--section-y) var(--section-x);
+  background: var(--navy-mid);
   position: relative;
   overflow: hidden;
+  z-index: 7;
+}
+
+#imagen-vertical .section-header-centered,
+#imagen-vertical .vertical-image-container {
+  position: relative;
+  z-index: 1;
 }
 
 #imagen-vertical::before {
@@ -1666,11 +2314,12 @@ footer {
   left: 0;
   right: 0;
   bottom: 0;
-  background: radial-gradient(circle at 50% 30%, rgba(201, 168, 76, 0.06) 0%, transparent 50%),
-              radial-gradient(circle at 30% 70%, rgba(201, 168, 76, 0.04) 0%, transparent 40%),
-              radial-gradient(circle at 70% 60%, rgba(201, 168, 76, 0.03) 0%, transparent 45%);
-  animation: mapaCriticoGlow 10s ease-in-out infinite alternate;
-  pointer-events: none;
+  background-image: url('ruta-de-tu-imagen-de-fondo-mapa.jpg');
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+  opacity: 0.3;
+  z-index: 0;
 }
 
 /* Liquid Glass Overlay - MAC/iPhone Style */
@@ -1720,17 +2369,18 @@ footer {
 }
 
 .vertical-image-container {
-  max-width: 600px;
+  width: 100%;
+  max-width: var(--vertical-img-max);
   margin: 0 auto;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 400px;
+  min-height: auto;
 }
 
 .vertical-img {
   width: 100%;
-  max-width: 800px;
+  max-width: 100%;
   height: auto;
   display: block;
   margin: 0 auto;
@@ -1752,4 +2402,437 @@ footer {
   border: 2px dashed rgba(201, 168, 76, 0.3);
   border-radius: 12px;
   justify-content: center;
+}
+
+/* ==================== RESPONSIVE DESIGN ==================== */
+
+/* Tablet (768px - 1024px) */
+@media (max-width: 1024px) {
+  .team-grid {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 2rem;
+  }
+  
+  .hero-title {
+    font-size: clamp(2.5rem, 5vw, 4rem);
+  }
+  
+  .hero-meta {
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .jerarquia-pyramid {
+    max-width: 100%;
+  }
+  
+  .pyramid-img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .vertical-img {
+    max-width: 100%;
+  }
+  
+  .vertical-image-container {
+    max-width: 100%;
+  }
+}
+
+/* Mobile (max-width: 767px) */
+@media (max-width: 767px) {
+  /* Navigation */
+  nav {
+    padding: 0.75rem 1rem;
+  }
+  
+  .nav-links {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    right: 0;
+    background: var(--navy);
+    flex-direction: column;
+    padding: 1rem;
+    gap: 0.5rem;
+  }
+  
+  .nav-links.active {
+    display: flex;
+  }
+  
+  .nav-links li {
+    width: 100%;
+  }
+  
+  .nav-links a {
+    padding: 0.75rem 1rem;
+    display: block;
+  }
+  
+  .nav-share {
+    display: none;
+  }
+  
+  .hamburger {
+    display: flex;
+  }
+  
+  /* Hero Section */
+  .hero-content {
+    padding: 0 1.5rem;
+  }
+  
+  .hero-title {
+    font-size: clamp(2rem, 8vw, 3rem);
+    line-height: 1.2;
+  }
+  
+  .hero-tagline {
+    font-size: 1rem;
+  }
+  
+  .hero-meta {
+    flex-direction: column;
+    gap: 0.75rem;
+    align-items: flex-start;
+  }
+  
+  .meta-sep {
+    display: none;
+  }
+  
+  .hero-cta {
+    flex-direction: column;
+    gap: 1rem;
+  }
+  
+  .cta-primary, .cta-ghost {
+    width: 100%;
+    text-align: center;
+  }
+  
+  /* Team Section */
+  .team-grid {
+    grid-template-columns: 1fr;
+    gap: 1.5rem;
+    padding: 0 1rem;
+  }
+  
+  .team-card {
+    max-width: 100%;
+  }
+  
+  .team-img {
+    width: 120px;
+    height: 120px;
+  }
+  
+  .team-info h3 {
+    font-size: 1.25rem;
+  }
+  
+  .team-role {
+    font-size: 0.9rem;
+  }
+  
+  .team-desc {
+    font-size: 0.85rem;
+  }
+  
+  /* Manifiesto Section */
+  #manifiesto {
+    padding: 6rem 1.5rem;
+  }
+  
+  .manif-title {
+    font-size: clamp(1.75rem, 5vw, 2.5rem);
+  }
+  
+  /* Metafora Section */
+  #metafora {
+    padding: 4rem 1.5rem;
+  }
+  
+  .metafora-description img {
+    max-width: 100%;
+  }
+  
+  /* Map Section */
+  #mapa {
+    padding: 4rem 1rem;
+  }
+  
+  .career-switch {
+    flex-direction: column;
+    gap: 0.75rem;
+  }
+  
+  .switch-btn {
+    width: 100%;
+    padding: 1rem;
+  }
+  
+  .map-container {
+    padding: 1rem;
+  }
+  
+  #peruMap {
+    height: 400px;
+  }
+  
+  .map-stats {
+    grid-template-columns: 1fr;
+    gap: 1rem;
+  }
+  
+  /* Jerarquia Section */
+  #jerarquia {
+    padding: 4rem 1.5rem;
+  }
+  
+  .jerarquia-layout {
+    padding: 0;
+  }
+  
+  .jerarquia-content {
+    padding: 1.5rem;
+  }
+  
+  .jerarquia-intro h3 {
+    font-size: 1.5rem;
+  }
+  
+  .jerarquia-intro p {
+    font-size: 0.95rem;
+  }
+  
+  .pyramid-img {
+    max-width: 100%;
+    height: auto;
+  }
+  
+  .statement-box p {
+    font-size: 0.9rem;
+    line-height: 1.6;
+  }
+  
+  /* Vertical Image Section */
+  #imagen-vertical {
+    padding: 4rem 1.5rem;
+  }
+  
+  .vertical-image-container {
+    max-width: 100%;
+    min-height: auto;
+  }
+  
+  .vertical-img {
+    max-width: 100%;
+  }
+  
+  /* Section Headers */
+  .section-heading {
+    font-size: clamp(1.75rem, 5vw, 2.5rem);
+  }
+  
+  .section-eyebrow {
+    font-size: 0.85rem;
+  }
+  
+  /* Section Divider */
+  .section-divider {
+    padding: 2rem 1rem;
+  }
+}
+
+/* Small Mobile (max-width: 480px) */
+@media (max-width: 480px) {
+  .hero-title {
+    font-size: clamp(1.75rem, 10vw, 2.5rem);
+  }
+  
+  .hero-tagline {
+    font-size: 0.9rem;
+  }
+  
+  .team-img {
+    width: 100px;
+    height: 100px;
+  }
+  
+  .team-info h3 {
+    font-size: 1.1rem;
+  }
+  
+  .team-role {
+    font-size: 0.85rem;
+  }
+  
+  .team-desc {
+    font-size: 0.8rem;
+  }
+  
+  .principle-item h4 {
+    font-size: 1rem;
+  }
+  
+  .principle-item p {
+    font-size: 0.85rem;
+  }
+  
+  .map-stats {
+    grid-template-columns: 1fr;
+  }
+  
+  .stat-number {
+    font-size: 2rem;
+  }
+  
+  .stat-label {
+    font-size: 0.85rem;
+  }
+  
+  #peruMap {
+    height: 350px;
+  }
+}
+
+/* Móvil alto: mantener hero centrado */
+@media (max-width: 600px) and (min-height: 700px) {
+  #hero {
+    min-height: 100svh;
+  }
+
+  .hero-content {
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    margin: 0;
+  }
+
+  .hero-year {
+    font-size: clamp(2.5rem, 20vw, 4rem);
+  }
+}
+
+/* Móviles con pantalla ultra-alta */
+@media (max-width: 400px) and (min-height: 800px) {
+  html {
+    font-size: 13px;
+  }
+  
+  .hero-title {
+    font-size: clamp(1.4rem, 18vw, 2.2rem);
+  }
+  
+  .team-img {
+    width: 70px;
+    height: 70px;
+  }
+  
+  .team-card {
+    padding: 1rem;
+  }
+  
+  .principle-item {
+    padding: 0.8rem;
+  }
+  
+  .map-container {
+    height: 280px;
+  }
+}
+
+/* ── Desktop grande (laptop / 2K) ───────────────────────── */
+@media (min-width: 1200px) {
+  :root {
+    --content-max: min(90vw, 1520px);
+    --hero-card-max: min(88vw, 1000px);
+  }
+
+  nav {
+    padding: 1.5rem clamp(2rem, 4vw, 4rem);
+  }
+
+  .team-grid {
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .manif-quote {
+    max-width: 900px;
+    font-size: 1.35rem;
+  }
+
+  .pyramid-image-container {
+    max-width: 1100px;
+  }
+}
+
+@media (min-width: 1600px) {
+  :root {
+    --content-max: min(88vw, 1680px);
+    --content-wide: min(90vw, 1800px);
+    --hero-card-max: min(82vw, 1080px);
+    --nav-gap: 2rem;
+  }
+
+  html {
+    font-size: 17px;
+  }
+
+  .hero-title {
+    font-size: clamp(3.5rem, 3.5vw + 1.5rem, 7rem);
+  }
+
+  .map-container {
+    max-width: var(--content-wide);
+    height: clamp(480px, 52vh, 720px); /* override desktop: ajusta en --map-box-height si prefieres una sola variable */
+  }
+
+  .vertical-image-container {
+    max-width: min(1100px, 75vw); /* override desktop: o usa --vertical-img-max */
+  }
+
+  .metafora-description img {
+    max-width: 100% !important;
+  }
+}
+
+/* Monitores 2K / QHD (2560×1440 típico) */
+@media (min-width: 1920px) {
+  :root {
+    --content-max: min(86vw, 1720px);
+    --hero-card-max: min(78vw, 1120px);
+  }
+
+  html {
+    font-size: 18px;
+  }
+
+  .section-header-centered {
+    margin-bottom: 5rem;
+  }
+
+  .stat-number {
+    font-size: 3rem;
+  }
+}
+
+/* Nav compacto en anchos intermedios (evita desborde) */
+@media (min-width: 769px) and (max-width: 1280px) {
+  .nav-links a {
+    font-size: 0.72rem;
+    letter-spacing: 0.12em;
+  }
+
+  .nav-share span {
+    display: none;
+  }
+
+  .nav-share {
+    padding: 0.5rem 0.65rem;
+  }
 }

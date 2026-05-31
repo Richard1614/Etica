@@ -31,17 +31,25 @@ document.addEventListener('DOMContentLoaded', () => {
   const navLinks = document.getElementById('navLinks');
   
   if (hamburger) {
+    const setMenuOpen = (open) => {
+      hamburger.classList.toggle('active', open);
+      navLinks.classList.toggle('active', open);
+      hamburger.setAttribute('aria-expanded', open ? 'true' : 'false');
+      hamburger.setAttribute('aria-label', open ? 'Cerrar menú' : 'Abrir menú');
+    };
+
     hamburger.addEventListener('click', () => {
-      hamburger.classList.toggle('open');
-      navLinks.classList.toggle('open');
+      setMenuOpen(!navLinks.classList.contains('active'));
     });
 
-    // Cerrar menú al hacer click en un enlace
     navLinks.querySelectorAll('a').forEach(link => {
-      link.addEventListener('click', () => {
-        hamburger.classList.remove('open');
-        navLinks.classList.remove('open');
-      });
+      link.addEventListener('click', () => setMenuOpen(false));
+    });
+
+    document.addEventListener('click', (e) => {
+      if (!hamburger.contains(e.target) && !navLinks.contains(e.target)) {
+        setMenuOpen(false);
+      }
     });
   }
 
@@ -236,7 +244,7 @@ document.addEventListener('DOMContentLoaded', () => {
       let avgIndex;
       if (currentCareer === 'sistemas') {
         // Valor personalizado para Ingeniería de Sistemas
-        avgIndex = 18.39; // Puedes ajustar este valor
+        avgIndex = 36.7; // Puedes ajustar este valor
       } else {
         // Valor personalizado para Nutrición
         avgIndex = 12.1; // Puedes ajustar este valor

@@ -34,7 +34,7 @@
       <li><a href="#manifiesto">Manifiesto</a></li>
       <li><a href="#metafora">Metáfora</a></li>
       <li><a href="#mapa">Mapa</a></li>
-      <li><a href="#jerarquia">Jerarquía de Valores</a></li>
+      <li><a href="#jerarquia">Jerarquía</a></li>
       <li><a href="#imagen-vertical">Mapa Crítico</a></li>
       <li><a href="#media">Media</a></li>
       <li><a href="#infografia">Infografía</a></li>
@@ -43,8 +43,8 @@
       <span>Compartir</span>
       <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
     </button>
-    <button class="hamburger" id="hamburger">
-      <span></span><span></span>
+    <button class="hamburger" id="hamburger" type="button" aria-label="Abrir menú" aria-expanded="false">
+      <span></span><span></span><span></span>
     </button>
   </nav>
 
@@ -177,7 +177,7 @@ Soy una persona responsable, empática y amable, siempre buscando comprender y l
       <div class="team-card" data-index="03">
         <div class="team-card-inner">
           <div class="team-img">
-            <img src="Foto Samantha.jpeg"Mancini Blas, Samantha"> 
+            <img src="Foto Samantha.jpeg" alt="Mancini Blas, Samantha"> 
             <div class="team-img-ph">
               <span>03</span>
             </div>
@@ -232,6 +232,7 @@ Soy una persona responsable, empática y amable, siempre buscando comprender y l
         <div class="team-card-inner">
           <div class="team-img">
             <img src="Foto Lore.jpeg" alt="Villalba Castillo, Lorena">
+            <div class="team-img-ph">
               <span>06</span>
             </div>
           </div>
@@ -400,7 +401,7 @@ Soy una persona responsable, empática y amable, siempre buscando comprender y l
     </div>
     
     <div class="section-header-centered">
-      <div class="section-eyebrow">04 — Fundamentos Éticos</div>
+      <div class="section-eyebrow">05 — Fundamentos Éticos</div>
       <h2 class="section-heading">Jerarquía de Valores <em>Max Scheler</em></h2>
     </div>
 
@@ -430,7 +431,7 @@ Soy una persona responsable, empática y amable, siempre buscando comprender y l
   <!-- ==================== IMAGEN VERTICAL ==================== -->
   <section id="imagen-vertical">
     <div class="section-header-centered">
-      <div class="section-eyebrow">05 — Visualización</div>
+      <div class="section-eyebrow">06 — Visualización</div>
       <h2 class="section-heading">Mapa <em>Critico</em></h2>
     </div>
 
@@ -449,43 +450,40 @@ Soy una persona responsable, empática y amable, siempre buscando comprender y l
   <!-- ==================== MEDIA ==================== -->
   <section id="media">
     <div class="section-header-centered">
-      <div class="section-eyebrow">03 — Contenido audiovisual</div>
+      <div class="section-eyebrow">07 — Contenido audiovisual</div>
       <h2 class="section-heading">Podcast & <em>Video-Reacción</em></h2>
     </div>
 
     <div class="media-layout">
 
       <!-- PODCAST -->
+      <!--
+        CÓMO AGREGAR TU PODCAST:
+        1. Guarda tu audio en esta carpeta (ej: podcast.mp3)
+        2. Guarda tu imagen de portada (ej: podcast-portada.jpg)
+        3. Cambia los nombres en src="" y en --podcast-cover abajo
+      -->
       <div class="media-block podcast-block">
-        <div class="media-video-container">
-          <!--
-            INSTRUCCIONES PARA AGREGAR TU VIDEO:
-            1. Sube tu podcast a YouTube
-            2. Copia el ID del video (ej: dQw4w9WgXcQ)
-            3. Reemplaza "TU_VIDEO_ID_AQUI" por ese ID
-          -->
-          <iframe
-            src="https://www.youtube.com/embed/TU_VIDEO_ID_AQUI?rel=0&modestbranding=1"
-            title="Podcast del equipo"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen>
-          </iframe>
-          <div class="video-placeholder" id="podcastPh">
-            <div class="vph-inner">
-              <div class="vph-icon">🎙</div>
-              <span>En proceso RMGP 26/04/2026</span>
-              <small>Reemplaza el src del iframe con tu video de YouTube</small>
-            </div>
+        <div class="podcast-player" style="--podcast-cover: url('Img-Portada.jpg');">
+          <div class="podcast-player-bg" aria-hidden="true"></div>
+          <div class="podcast-player-overlay" aria-hidden="true"></div>
+          <div class="podcast-player-content">
+            <span class="podcast-player-icon" aria-hidden="true">🎙</span>
+            <p class="podcast-player-label">Podcast</p>
+            <audio class="podcast-audio" controls preload="metadata">
+              <source src="podcast.mp4" type="audio/mpeg">
+              <source src="podcast.ogg" type="audio/ogg">
+              Tu navegador no soporta reproducción de audio.
+            </audio>
           </div>
         </div>
         <div class="media-info">
-          <span class="media-tag">Podcast · Ep. 01</span>
-          <h3>En proceso RMGP 26/04/2026</h3>
+          <span class="media-tag">Podcast</span>
+          <h3>Semana 9</h3>
           <p>Reflexión grupal sobre el dilema ético central del semestre y sus implicancias en el ejercicio profesional.</p>
           <div class="media-meta">
-            <span>🕐 En proceso RMGP 26/04/2026</span>
-            <span>🎤 En proceso RMGP 26/04/2026</span>
+            <span>🕐 2 minutos</span>
+            <span>🎤 Grupo 3</span>
           </div>
         </div>
       </div>
@@ -507,28 +505,30 @@ Soy una persona responsable, empática y amable, siempre buscando comprender y l
           <div class="video-placeholder" id="videoPh">
             <div class="vph-inner">
               <div class="vph-icon">🎬</div>
-              <span>En proceso RMGP 26/04/2026</span>
-              <small>Reemplaza el src del iframe con tu video de YouTube</small>
+              <span>En proceso </span>
+              <small>Proximamente</small>
             </div>
           </div>
         </div>
         <div class="media-info">
           <span class="media-tag">Video-Reacción</span>
-          <h3>En proceso RMGP 26/04/2026</h3>
+          <h3>En proceso</h3>
           <p>Nuestra reacción crítica y analítica a un caso audiovisual vinculado a la ética en el ejercicio profesional.</p>
           <div class="media-meta">
-            <span>🕐 En proceso RMGP 26/04/2026/span>
+            <span>🕐 En proceso</span>
             <span>📺 YouTube</span>
           </div>
         </div>
       </div>
+
+    </div>
   </section>
 
   <!-- ==================== INFOGRAFIA ==================== -->
   <section id="infografia">
     <div class="info-layout">
       <div class="info-text">
-        <div class="section-eyebrow">04 — Visualización</div>
+        <div class="section-eyebrow">08 — Visualización</div>
         <h2 class="section-heading">La <em>Infografía</em></h2>
         <div class="about-divider"></div>
         <p>Mapeamos los principios éticos que guían nuestra práctica profesional, visualizando sus interrelaciones y jerarquías de forma gráfica.</p>
