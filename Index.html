@@ -489,33 +489,46 @@ Soy una persona responsable, empática y amable, siempre buscando comprender y l
       </div>
 
       <!-- VIDEO REACCION -->
+      <!--
+        CÓMO AGREGAR VIDEO DE YOUTUBE:
+        1. Abre tu video en YouTube (ej: https://www.youtube.com/watch?v=abc123XYZ)
+        2. Copia solo el ID después de v=  →  abc123XYZ
+        3. Pégalo en data-youtube-id="" abajo (reemplaza TU_VIDEO_REACCION_ID)
+        4. Al hacer clic se abre en vista panorámica; botón ⛶ = pantalla completa
+      -->
       <div class="media-block video-block">
-        <div class="media-video-container">
-          <!--
-            INSTRUCCIONES:
-            Reemplaza "TU_VIDEO_REACCION_ID" con el ID de tu video de YouTube
-          -->
-          <iframe
-            src="https://www.youtube.com/embed/TU_VIDEO_REACCION_ID?rel=0&modestbranding=1"
-            title="Video-Reacción del equipo"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-            allowfullscreen>
-          </iframe>
+        <div class="media-video-container yt-video-preview">
+          <img
+            class="yt-preview-thumb"
+            id="videoReactionThumb"
+            src=""
+            alt="Vista previa del video"
+            hidden>
+          <button
+            type="button"
+            class="yt-play-trigger"
+            id="videoReactionPlay"
+            data-youtube-id="PXJl2xicmPQ"
+            data-youtube-title="Video-Reacción del equipo"
+            aria-label="Reproducir video en vista panorámica">
+            <span class="yt-play-ring" aria-hidden="true">
+              <span class="yt-play-icon" aria-hidden="true">▶</span>
+            </span>
+            <span class="yt-play-text">Ver video</span>
+          </button>
           <div class="video-placeholder" id="videoPh">
             <div class="vph-inner">
               <div class="vph-icon">🎬</div>
-              <span>En proceso </span>
-              <small>Proximamente</small>
+              <span>Agrega tu ID de YouTube</span>
+              <small>data-youtube-id en Index.html</small>
             </div>
           </div>
         </div>
         <div class="media-info">
           <span class="media-tag">Video-Reacción</span>
-          <h3>En proceso</h3>
+          <h3>Video-Reacción · Semana 12</h3>
           <p>Nuestra reacción crítica y analítica a un caso audiovisual vinculado a la ética en el ejercicio profesional.</p>
           <div class="media-meta">
-            <span>🕐 En proceso</span>
             <span>📺 YouTube</span>
           </div>
         </div>
@@ -590,6 +603,27 @@ Soy una persona responsable, empática y amable, siempre buscando comprender y l
       <p>Ingenieria de sistemas/Nutrición y Dietética ·Luis Guillermo Mendoza Velarde</p>
     </div>
   </footer>
+
+  <!-- Modal YouTube — vista panorámica -->
+  <div class="yt-modal" id="ytModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="ytModalTitle">
+    <div class="yt-modal-backdrop" data-yt-close></div>
+    <div class="yt-modal-dialog">
+      <div class="yt-modal-header">
+        <h3 class="yt-modal-title" id="ytModalTitle">Video</h3>
+        <button type="button" class="yt-modal-close" data-yt-close aria-label="Cerrar video">×</button>
+      </div>
+      <div class="yt-modal-player">
+        <iframe
+          id="ytModalIframe"
+          title="Reproductor de YouTube"
+          frameborder="0"
+          allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; fullscreen"
+          allowfullscreen>
+        </iframe>
+      </div>
+      <p class="yt-modal-hint">Tip: usa el botón ⛶ del reproductor para pantalla completa</p>
+    </div>
+  </div>
 
   <script src="Animacion.js"></script>
 </body>

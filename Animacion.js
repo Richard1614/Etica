@@ -290,4 +290,66 @@ document.addEventListener('DOMContentLoaded', () => {
       });
     }
   }
+
+  // ── YOUTUBE MODAL (vista panorámica) ─────────────────────
+  const ytModal = document.getElementById('ytModal');
+  const ytModalIframe = document.getElementById('ytModalIframe');
+  const ytModalTitle = document.getElementById('ytModalTitle');
+
+  const isValidYoutubeId = (id) => {
+    return id && !id.includes('TU_VIDEO') && /^[\w-]{6,}$/.test(id);
+  };
+
+  const buildYoutubeEmbed = (id) => {
+    return `https://www.youtube.com/embed/${id}?autoplay=1&rel=0&modestbranding=1&playsinline=1`;
+  };
+
+  const openYoutubeModal = (id, title) => {
+    if (!ytModal || !ytModalIframe) return;
+    ytModalIframe.src = buildYoutubeEmbed(id);
+    if (ytModalTitle) ytModalTitle.textContent = title || 'Video';
+    ytModal.classList.add('is-open');
+    ytModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeYoutubeModal = () => {
+    if (!ytModal || !ytModalIframe) return;
+    ytModal.classList.remove('is-open');
+    ytModal.setAttribute('aria-hidden', 'true');
+    ytModalIframe.src = '';
+    document.body.style.overflow = '';
+  };
+
+  document.querySelectorAll('.yt-play-trigger').forEach((trigger) => {
+    const id = trigger.dataset.youtubeId;
+    const preview = trigger.closest('.yt-video-preview');
+    const thumb = preview?.querySelector('.yt-preview-thumb');
+
+    if (isValidYoutubeId(id)) {
+      preview?.classList.add('is-ready');
+      if (thumb) {
+        thumb.hidden = false;
+        thumb.src = `https://img.youtube.com/vi/${id}/maxresdefault.jpg`;
+        thumb.onerror = () => {
+          thumb.src = `https://img.youtube.com/vi/${id}/hqdefault.jpg`;
+        };
+      }
+    }
+
+    trigger.addEventListener('click', () => {
+      if (!isValidYoutubeId(id)) return;
+      openYoutubeModal(id, trigger.dataset.youtubeTitle);
+    });
+  });
+
+  ytModal?.querySelectorAll('[data-yt-close]').forEach((el) => {
+    el.addEventListener('click', closeYoutubeModal);
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (e.key === 'Escape' && ytModal?.classList.contains('is-open')) {
+      closeYoutubeModal();
+    }
+  });
 });
