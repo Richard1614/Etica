@@ -259,7 +259,7 @@ document.addEventListener('DOMContentLoaded', () => {
     createMarkers(sistemasData);
 
     // Switch de carreras
-    const switchBtns = document.querySelectorAll('.switch-btn');
+    const switchBtns = document.querySelectorAll('#mapa .switch-btn');
     switchBtns.forEach(btn => {
       btn.addEventListener('click', () => {
         // Remover clase active de todos
@@ -347,9 +347,85 @@ document.addEventListener('DOMContentLoaded', () => {
     el.addEventListener('click', closeYoutubeModal);
   });
 
+  // ── INFOGRAFÍA: switch Semana 13 / 14 ────────────────────
+  const infoWeekToggle = document.querySelector('#infografia .info-week-toggle');
+  const infoWeekBtns = document.querySelectorAll('#infografia .info-week-btn');
+  const infoWeekPanels = document.querySelectorAll('#infografia .info-week-panel');
+
+  const showInfoWeek = (week) => {
+    if (infoWeekToggle) {
+      infoWeekToggle.dataset.active = week;
+    }
+
+    infoWeekBtns.forEach((btn) => {
+      const isActive = btn.dataset.week === week;
+      btn.classList.toggle('active', isActive);
+      btn.setAttribute('aria-selected', isActive ? 'true' : 'false');
+    });
+
+    infoWeekPanels.forEach((panel) => {
+      const isActive = panel.dataset.week === week;
+      panel.classList.toggle('active', isActive);
+      panel.hidden = !isActive;
+    });
+  };
+
+  infoWeekBtns.forEach((btn) => {
+    btn.addEventListener('click', () => {
+      if (btn.classList.contains('active')) return;
+      showInfoWeek(btn.dataset.week);
+    });
+  });
+
+  // ── INFOGRAFÍA: ampliar imagen ───────────────────────────
+  const infoImgModal = document.getElementById('infoImgModal');
+  const infoImgModalImg = document.getElementById('infoImgModalImg');
+  const infoImgModalTitle = document.getElementById('infoImgModalTitle');
+
+  const openInfoImgModal = (src, alt) => {
+    if (!infoImgModal || !infoImgModalImg || !src) return;
+    infoImgModalImg.src = src;
+    infoImgModalImg.alt = alt || 'Infografía';
+    if (infoImgModalTitle) infoImgModalTitle.textContent = alt || 'Infografía';
+    infoImgModal.classList.add('is-open');
+    infoImgModal.setAttribute('aria-hidden', 'false');
+    document.body.style.overflow = 'hidden';
+  };
+
+  const closeInfoImgModal = () => {
+    if (!infoImgModal || !infoImgModalImg) return;
+    infoImgModal.classList.remove('is-open');
+    infoImgModal.setAttribute('aria-hidden', 'true');
+    infoImgModalImg.src = '';
+    document.body.style.overflow = '';
+  };
+
+  document.querySelectorAll('#infografia .info-expand-btn').forEach((btn) => {
+    btn.addEventListener('click', () => {
+      const panel = btn.closest('.info-week-panel');
+      const img = panel?.querySelector('.info-img');
+      if (img) openInfoImgModal(img.src, img.alt);
+    });
+  });
+
+  document.querySelectorAll('#infografia .info-img').forEach((img) => {
+    img.addEventListener('click', () => openInfoImgModal(img.src, img.alt));
+    img.addEventListener('keydown', (e) => {
+      if (e.key === 'Enter' || e.key === ' ') {
+        e.preventDefault();
+        openInfoImgModal(img.src, img.alt);
+      }
+    });
+  });
+
+  infoImgModal?.querySelectorAll('[data-info-close]').forEach((el) => {
+    el.addEventListener('click', closeInfoImgModal);
+  });
+
   document.addEventListener('keydown', (e) => {
-    if (e.key === 'Escape' && ytModal?.classList.contains('is-open')) {
-      closeYoutubeModal();
+    if (e.key === 'Escape') {
+      if (ytModal?.classList.contains('is-open')) closeYoutubeModal();
+      if (infoImgModal?.classList.contains('is-open')) closeInfoImgModal();
     }
   });
 });

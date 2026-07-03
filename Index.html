@@ -539,53 +539,81 @@ Soy una persona responsable, empática y amable, siempre buscando comprender y l
 
   <!-- ==================== INFOGRAFIA ==================== -->
   <section id="infografia">
-    <div class="info-layout">
-      <div class="info-text">
-        <div class="section-eyebrow">08 — Visualización</div>
-        <h2 class="section-heading">La <em>Infografía</em></h2>
-        <div class="about-divider"></div>
-        <p>Mapeamos los principios éticos que guían nuestra práctica profesional, visualizando sus interrelaciones y jerarquías de forma gráfica.</p>
-        <p>Cada eje de la brújula representa un valor fundamental que orienta nuestras decisiones.</p>
-        <a href="#" class="cta-primary" style="display:inline-flex; margin-top:2rem;">
-          <span>Descargar PDF</span>
-          <div class="cta-arrow">↗</div>
-        </a>
-      </div>
-      <div class="info-visual-wrap">
-        <!-- Reemplaza con tu infografía: <img src="infografia.png" alt="infografía"> -->
-        <div class="compass-viz">
-          <svg viewBox="0 0 360 360" xmlns="http://www.w3.org/2000/svg">
-            <!-- Rings -->
-            <circle cx="180" cy="180" r="160" fill="none" stroke="rgba(201,168,76,0.08)" stroke-width="1"/>
-            <circle cx="180" cy="180" r="120" fill="none" stroke="rgba(201,168,76,0.12)" stroke-width="0.5"/>
-            <circle cx="180" cy="180" r="80"  fill="none" stroke="rgba(201,168,76,0.18)" stroke-width="0.5"/>
-            <circle cx="180" cy="180" r="40"  fill="none" stroke="rgba(201,168,76,0.28)" stroke-width="0.5"/>
-            <!-- Axes -->
-            <line x1="180" y1="20"  x2="180" y2="340" stroke="rgba(201,168,76,0.1)" stroke-width="0.5"/>
-            <line x1="20"  y1="180" x2="340" y2="180" stroke="rgba(201,168,76,0.1)" stroke-width="0.5"/>
-            <line x1="66"  y1="66"  x2="294" y2="294" stroke="rgba(201,168,76,0.06)" stroke-width="0.5"/>
-            <line x1="294" y1="66"  x2="66"  y2="294" stroke="rgba(201,168,76,0.06)" stroke-width="0.5"/>
-            <!-- Needle N -->
-            <polygon points="180,28 175,90 180,78 185,90" fill="#C9A84C" opacity="0.95"/>
-            <!-- Needle S -->
-            <polygon points="180,332 175,270 180,282 185,270" fill="rgba(201,168,76,0.3)" opacity="0.6"/>
-            <!-- Labels -->
-            <text x="180" y="18" text-anchor="middle" fill="#C9A84C" font-size="10" font-family="Syne, sans-serif" letter-spacing="3" font-weight="700">INTEGRIDAD</text>
-            <text x="180" y="355" text-anchor="middle" fill="rgba(245,240,232,0.35)" font-size="9" font-family="Syne, sans-serif" letter-spacing="2">RESPONSABILIDAD</text>
-            <text x="345" y="184" text-anchor="end" fill="rgba(245,240,232,0.35)" font-size="9" font-family="Syne, sans-serif" letter-spacing="2">TRANSPARENCIA</text>
-            <text x="15" y="184" text-anchor="start" fill="rgba(245,240,232,0.35)" font-size="9" font-family="Syne, sans-serif" letter-spacing="2">JUSTICIA</text>
-            <!-- Center -->
-            <circle cx="180" cy="180" r="12" fill="rgba(201,168,76,0.15)" stroke="#C9A84C" stroke-width="0.5"/>
-            <circle cx="180" cy="180" r="5" fill="#C9A84C"/>
-            <!-- Degree marks -->
-            <g stroke="rgba(201,168,76,0.2)" stroke-width="0.5">
-              <line x1="180" y1="20"  x2="180" y2="30"/>
-              <line x1="180" y1="330" x2="180" y2="340"/>
-              <line x1="20"  y1="180" x2="30"  y2="180"/>
-              <line x1="330" y1="180" x2="340" y2="180"/>
-            </g>
-          </svg>
-          <div class="compass-glow"></div>
+    <!-- Video de fondo -->
+    <div class="info-video-wrap" aria-hidden="true">
+      <!--
+        CÓMO CAMBIAR EL VIDEO:
+        1. Abre tu video en YouTube y copia el ID (ej: abc123XYZ)
+        2. Reemplaza el ID en src="" abajo
+      -->
+      <iframe
+        src="https://www.youtube.com/embed/gqYGj-fDD_I?autoplay=1&mute=1&loop=1&playlist=gqYGj-fDD_I&controls=0&showinfo=0&rel=0&iv_load_policy=3&modestbranding=1&playsinline=1"
+        title="Fondo infografía"
+        frameborder="0"
+        allow="autoplay; fullscreen"
+        allowfullscreen>
+      </iframe>
+      <div class="info-video-fallback"></div>
+    </div>
+
+    <!-- Panel liquid glass -->
+    <div class="info-glass-panel">
+      <div class="info-glass-shine" aria-hidden="true"></div>
+
+      <div class="info-inner">
+        <div class="section-header-centered info-header">
+          <div class="section-eyebrow">08 — Visualización</div>
+          <h2 class="section-heading">La <em>Infografía</em></h2>
+        </div>
+
+        <!-- Toggle segmentado Semana 13 / 14 -->
+        <div class="info-week-toggle" role="tablist" aria-label="Seleccionar semana" data-active="13">
+          <span class="info-week-indicator" aria-hidden="true"></span>
+          <button class="info-week-btn active" type="button" role="tab" aria-selected="true" aria-controls="info-semana-13" data-week="13" id="info-tab-13">
+            <span class="info-week-num">13</span>
+            <span class="info-week-label">Semana 13</span>
+          </button>
+          <button class="info-week-btn" type="button" role="tab" aria-selected="false" aria-controls="info-semana-14" data-week="14" id="info-tab-14">
+            <span class="info-week-num">14</span>
+            <span class="info-week-label">Semana 14</span>
+          </button>
+        </div>
+
+        <!-- Semana 13 -->
+        <div class="info-layout info-week-panel active" id="info-semana-13" role="tabpanel" aria-labelledby="info-tab-13" data-week="13">
+          <div class="info-text">
+            <span class="info-week-badge">Semana 13</span>
+            <div class="about-divider"></div>
+            <p>La infografía destaca la importancia del compromiso ético y el trabajo interdisciplinario para mejorar la calidad de vida de las comunidades rurales mediante la nutrición y la ingeniería de sistemas.</p>
+            <button type="button" class="cta-primary info-expand-btn">
+              <span>Ampliar imagen</span>
+              <div class="cta-arrow">⛶</div>
+            </button>
+          </div>
+          <div class="info-visual-wrap">
+            <div class="info-image-frame">
+              <img src="Semana 13.jpeg" alt="Infografía Semana 13" class="info-img" tabindex="0" role="button" aria-label="Ampliar infografía Semana 13">
+            </div>
+          </div>
+        </div>
+
+        <!-- Semana 14 -->
+        <div class="info-layout info-week-panel" id="info-semana-14" role="tabpanel" aria-labelledby="info-tab-14" data-week="14" hidden>
+          <div class="info-text">
+            <span class="info-week-badge">Semana 14</span>
+            <div class="about-divider"></div>
+            <p>Consolidamos el análisis ético del semestre en una visualización integradora que conecta valores, dilemas y compromisos profesionales.</p>
+            <p>Esta infografía sintetiza el recorrido del equipo y las conclusiones de nuestra reflexión deontológica.</p>
+            <button type="button" class="cta-primary info-expand-btn">
+              <span>Ampliar imagen</span>
+              <div class="cta-arrow">⛶</div>
+            </button>
+          </div>
+          <div class="info-visual-wrap">
+            <div class="info-image-frame">
+              <img src="infografia-semana14.png" alt="Infografía Semana 14" class="info-img" tabindex="0" role="button" aria-label="Ampliar infografía Semana 14">
+            </div>
+          </div>
         </div>
       </div>
     </div>
@@ -622,6 +650,20 @@ Soy una persona responsable, empática y amable, siempre buscando comprender y l
         </iframe>
       </div>
       <p class="yt-modal-hint">Tip: usa el botón ⛶ del reproductor para pantalla completa</p>
+    </div>
+  </div>
+
+  <!-- Modal infografía — ampliar imagen -->
+  <div class="info-img-modal" id="infoImgModal" aria-hidden="true" role="dialog" aria-modal="true" aria-labelledby="infoImgModalTitle">
+    <div class="info-img-modal-backdrop" data-info-close></div>
+    <div class="info-img-modal-dialog">
+      <div class="info-img-modal-header">
+        <h3 class="info-img-modal-title" id="infoImgModalTitle">Infografía</h3>
+        <button type="button" class="info-img-modal-close" data-info-close aria-label="Cerrar imagen">×</button>
+      </div>
+      <div class="info-img-modal-body">
+        <img id="infoImgModalImg" src="" alt="">
+      </div>
     </div>
   </div>
 
